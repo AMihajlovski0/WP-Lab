@@ -1,0 +1,93 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Event Booking page - Welcome and choose an Event</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+
+        fieldset {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Event Booking App</h1>
+</header>
+<main>
+    <h2>Find an event</h2>
+    <form method="get" action="events">
+        <label>
+            Name <input type="text" name="event-name" th:value="${eventName} ?: ''"/>
+        </label>
+        <label>
+            Location <input type="text" name="location" th:value="${location} ?: ''"/>
+        </label>
+        <label>
+            Minimum Rating <input type="number" name="min-rating" min="1" max="5" step="0.01"
+                                  th:value="${minRating} ?: ''"/>
+        </label>
+        <input type="submit" value="Search"/>
+    </form>
+    <h2>Choose an event:</h2>
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Rating</th>
+                <th>Location</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tr th:each="event: ${events}">
+                <td>
+                    <input type="radio" name="eventName" form="booking-form" th:value="${event.getName()}"/>
+                </td>
+                <th th:text="${event.getName()}"></th>
+                <th th:text="${event.getDescription()}"></th>
+                <th th:text="${event.getPopularityScore()}"></th>
+                <th th:text="${event.getLocation().getName()}"></th>
+                <td>
+                    <a th:href="@{'/events/edit-form/{id}'(id=${event.getId()})}"><i class="fa fa-pen-to-square">
+                        Edit</i></a>
+                    <a th:href="@{'/events/review-form/{id}'(id=${event.getId()})}"><i>
+                        Review</i></a>
+                </td>
+                <th>
+                    <form th:action="@{'/events/delete/{id}'(id=${event.getId()})}" th:method="post">
+                        <button type="submit">
+                            <i class="fa fa-trash">Delete</i>
+                        </button>
+                    </form>
+                </th>
+            </tr>
+
+        </table>
+    </div>
+    <div class="col mb-3">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <a href="/events/add-form">
+                    Add new event
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <h2>Choose number of tickets:</h2>
+    <input type="number" form="booking-form" name="numTickets" min="1" max="10"/><br/>
+    <br/>
+    <form id="booking-form" method="get" action="/event-booking">
+        <input type="submit" value="Submit">
+    </form>
+</main>
+</body>
+</html>
