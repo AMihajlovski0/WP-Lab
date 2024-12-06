@@ -22,33 +22,33 @@ public class EventListServlet extends HttpServlet {
         this.eventService = eventService;
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var eventName = req.getParameter("event-name");
-        var location = req.getParameter("location");
-        var minRatingParam = req.getParameter("min-rating");
-
-        if (eventName == null) eventName = "";
-
-        if (location == null) location = "";
-
-        double minRating = 1.0;
-
-        if (minRatingParam != null) try {
-            minRating = Double.parseDouble(minRatingParam);
-        } catch (NumberFormatException ignored) {
-
-        }
-
-        IWebExchange webExchange = JakartaServletWebApplication
-                .buildApplication(getServletContext())
-                .buildExchange(req, resp);
-
-        WebContext context = new WebContext(webExchange);
-        context.setVariable("events", eventService.searchEvents(eventName, location, minRating));
-        context.setVariable("eventName", eventName);
-        context.setVariable("minRating", minRating);
-        context.setVariable("location", location);
-        engine.process("listEvents.html", context, resp.getWriter());
-    }
+//    @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        var eventName = req.getParameter("event-name");
+//        var location = req.getParameter("location");
+//        var minRatingParam = req.getParameter("min-rating");
+//
+//        if (eventName == null) eventName = "";
+//
+//        if (location == null) location = "";
+//
+//        double minRating = 1.0;
+//
+//        if (minRatingParam != null) try {
+//            minRating = Double.parseDouble(minRatingParam);
+//        } catch (NumberFormatException ignored) {
+//
+//        }
+//
+//        IWebExchange webExchange = JakartaServletWebApplication
+//                .buildApplication(getServletContext())
+//                .buildExchange(req, resp);
+//
+//        WebContext context = new WebContext(webExchange);
+//        context.setVariable("events", eventService.searchEvents(eventName, location, minRating));
+//        context.setVariable("eventName", eventName);
+//        context.setVariable("minRating", minRating);
+//        context.setVariable("location", location);
+//        engine.process("listEvents.html", context, resp.getWriter());
+//    }
 }

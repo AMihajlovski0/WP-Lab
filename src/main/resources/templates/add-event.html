@@ -31,10 +31,11 @@
         <label>Rating
             <input type="number" name="popularityScore" min="1" max="5" step="0.01"
                    th:value="${event} == null ? '1.0' : ${event.getPopularityScore()}"></label>
-        <label>Location <select name="location">
-            <option th:each="location: ${locations}" th:value="${location.getId()}" th:text="${location.getName()}"
-                    th:selected="${event != null && event.getLocation().getId().equals(location.getId())}"></option>
-        </select></label>
+        <label>Location
+            <select name="location">
+                <option th:each="location: ${locations}" th:value="${location.getId()}" th:text="${location.getName()}"
+                        th:selected="${event != null && event.getLocation().getId().equals(location.getId())}"></option>
+            </select></label>
         <input type="submit" value="Finish"/>
     </form>
 </section>

@@ -26,8 +26,8 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
-    public List<Event> searchEvents(String text, String location, double minRating) {
-        return repo.searchEvents(text, location, minRating);
+    public List<Event> searchEvents(String text, Long locationId, double minRating) {
+        return repo.searchEvents(text, locationId, minRating);
     }
 
     @Override

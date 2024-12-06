@@ -23,24 +23,18 @@ public class EventController {
     @GetMapping
     public String getEventsPage(
             @RequestParam(name = "event-name", required = false) String eventName,
-            @RequestParam(name = "location", required = false) String location,
-            @RequestParam(name = "min-rating", required = false) String minRatingParam,
+            @RequestParam(name = "location", required = false) Long location,
+            @RequestParam(name = "min-rating", required = false) Double minRating,
             Model model
     ) {
         if (eventName == null) eventName = "";
-        if (location == null) location = "";
-
-        double minRating = 1.0;
-
-        if (minRatingParam != null) try {
-            minRating = Double.parseDouble(minRatingParam);
-        } catch (NumberFormatException ignored) {
-
-        }
+        if (location != null && location.equals(0L)) location = null;
+        if (minRating == null) minRating = 1.0;
 
         model.addAttribute("events", eventService.searchEvents(eventName, location, minRating));
         model.addAttribute("eventName", eventName);
         model.addAttribute("minRating", minRating);
+        model.addAttribute("locations", locationService.listAll());
         model.addAttribute("location", location);
 
         return "listEvents.html";
