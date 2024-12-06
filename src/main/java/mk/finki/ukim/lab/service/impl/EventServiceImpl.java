@@ -1,5 +1,6 @@
 package mk.finki.ukim.lab.service.impl;
 
+import jakarta.transaction.Transactional;
 import mk.finki.ukim.lab.model.Event;
 import mk.finki.ukim.lab.model.Review;
 import mk.finki.ukim.lab.repository.EventRepository;
@@ -24,16 +25,19 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public List<Event> searchEvents(String text, String location, double minRating) {
         return repo.searchEvents(text, location, minRating);
     }
 
     @Override
+    @Transactional
     public Optional<Event> getById(Long id) {
         return repo.findById(id);
     }
 
     @Override
+    @Transactional
     public Optional<Event> addEvent(String name, String description, Long locationId, double rating) {
         return locationService.getById(locationId).map(location ->
                 repo.save(new Event(name, description, rating, location))
@@ -41,6 +45,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public Optional<Event> updateEvent(Long id, String name, String description, Long locationId, double rating) {
         return locationService.getById(locationId).map(location -> {
             repo.deleteById(id);
@@ -49,6 +54,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public void addReview(Long id, String name, Double rating) {
         repo.findById(id).map(
                 event -> reviewRepo.save(new Review(name, rating, event))
@@ -56,6 +62,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public void deleteEvent(long id) {
         repo.deleteById(id);
     }

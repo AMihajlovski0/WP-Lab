@@ -1,5 +1,6 @@
 package mk.finki.ukim.lab.service.impl;
 
+import jakarta.transaction.Transactional;
 import mk.finki.ukim.lab.model.Location;
 import mk.finki.ukim.lab.repository.LocationRepository;
 import mk.finki.ukim.lab.service.LocationService;
@@ -17,11 +18,13 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @Transactional
     public List<Location> listAll() {
         return repo.findAll();
     }
 
     @Override
+    @Transactional
     public Optional<Location> getById(Long id) {
         return repo.findById(id);
     }

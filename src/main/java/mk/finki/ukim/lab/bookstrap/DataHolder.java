@@ -28,13 +28,13 @@ public class DataHolder {
     @Transactional
     public void init() {
         locations.add(
-                new Location(0L, "Arena Toshe Proeski",
+                new Location(1L, "Arena Toshe Proeski",
                         "Stadion Filip Vtori, Leninova, Skopje, North Macedonia",
                         "33.011 seats",
                         "Stadium in Skopje")
         );
         locations.add(
-                new Location(1L, "Sydney Opera House Concert Hall", "Bennelong Point, Sydney Opera " +
+                new Location(2L, "Sydney Opera House Concert Hall", "Bennelong Point, Sydney Opera " +
                         "House, Sydney, " +
                         "Australia", "2,679 " +
                         "seats",
