@@ -4,10 +4,8 @@
     <title>Event Booking page - Welcome and choose an Event</title>
     <style type="text/css">
         body {
-            width: 800px;
-            margin: auto;
+            horiz-align: center;
         }
-
         fieldset {
             display: flex;
             flex-direction: column;
@@ -17,6 +15,19 @@
 <body>
 <header>
     <h1>Welcome to our Event Booking App</h1>
+
+    <div class="nav-item" sec:authorize="isAuthenticated()">
+        <a class="btn btn-light btn-sm ml-3" href="/logout">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+    </div>
+
+    <div class="nav-item" sec:authorize="isAnonymous()">
+        <a class="btn btn-light btn-sm ml-3" href="/login">
+            <i class="fa-solid fa-right-to-bracket"></i> Login
+        </a>
+    </div>
+
 </header>
 <main>
     <h2>Find an event</h2>
@@ -29,7 +40,7 @@
             <option value="0">All</option>
             <option th:each="location: ${locations}" th:value="${location.getId()}" th:text="${location.getName()}"
                     th:selected="${event != null && event.getLocation().getId().equals(location.getId())}"></option>
-        </select>"/>
+        </select>
         </label>
         <label>
             Minimum Rating <input type="number" name="min-rating" min="1" max="5" step="0.01"
@@ -47,8 +58,8 @@
                 <th>Description</th>
                 <th>Rating</th>
                 <th>Location</th>
-                <th></th>
-                <th></th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
             </tr>
             </thead>
             <tr th:each="event: ${events}">
@@ -59,13 +70,13 @@
                 <th th:text="${event.getDescription()}"></th>
                 <th th:text="${event.getPopularityScore()}"></th>
                 <th th:text="${event.getLocation().getName()}"></th>
-                <td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')">
                     <a th:href="@{'/events/edit-form/{id}'(id=${event.getId()})}"><i class="fa fa-pen-to-square">
                         Edit</i></a>
                     <a th:href="@{'/events/review-form/{id}'(id=${event.getId()})}"><i>
                         Review</i></a>
                 </td>
-                <th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">
                     <form th:action="@{'/events/delete/{id}'(id=${event.getId()})}" th:method="post">
                         <button type="submit">
                             <i class="fa fa-trash">Delete</i>
@@ -76,7 +87,7 @@
 
         </table>
     </div>
-    <div class="col mb-3">
+    <div class="col mb-3" sec:authorize="hasRole('ROLE_ADMIN')">
         <div class="row">
             <div class="col-sm-12 col-md-12">
                 <a href="/events/add-form">

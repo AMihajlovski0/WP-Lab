@@ -3,6 +3,7 @@ package mk.finki.ukim.lab.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,14 +17,13 @@ public class EventBooking {
     @GeneratedValue
     private Long id;
     private String eventName;
-    private String attendeeName;
-    private String attendeeAddress;
+    @ManyToOne
+    private User user;
     private long numberOfTickets;
 
-    public EventBooking(String eventName, String attendeeName, String attendeeAddress, int numberOfTickets) {
+    public EventBooking(String eventName, User user, int numberOfTickets) {
         this.eventName = eventName;
-        this.attendeeName = attendeeName;
-        this.attendeeAddress = attendeeAddress;
+        this.user = user;
         this.numberOfTickets = numberOfTickets;
     }
 }

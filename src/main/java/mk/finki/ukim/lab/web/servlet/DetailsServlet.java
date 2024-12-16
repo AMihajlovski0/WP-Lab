@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.annotation.Profile;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.web.IWebExchange;
@@ -12,6 +13,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 
+@Profile("servlets")
 public class DetailsServlet extends HttpServlet {
     private final SpringTemplateEngine engine;
 
@@ -27,7 +29,7 @@ public class DetailsServlet extends HttpServlet {
 
         WebContext context = new WebContext(webExchange);
 
-        engine.process("details.html", context, resp.getWriter());
+        engine.process("register.html", context, resp.getWriter());
     }
 
     @Override

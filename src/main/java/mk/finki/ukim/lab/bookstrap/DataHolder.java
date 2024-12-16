@@ -4,8 +4,11 @@ import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import mk.finki.ukim.lab.model.Event;
 import mk.finki.ukim.lab.model.Location;
+import mk.finki.ukim.lab.model.User;
 import mk.finki.ukim.lab.repository.EventRepository;
 import mk.finki.ukim.lab.repository.LocationRepository;
+import mk.finki.ukim.lab.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,13 +18,18 @@ import java.util.List;
 public class DataHolder {
     public final static List<Event> events = new ArrayList<>();
     public final static List<Location> locations = new ArrayList<>();
+    public final static List<User> users = new ArrayList<>();
 
     private final EventRepository eventRepository;
     private final LocationRepository locationRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public DataHolder(EventRepository eventRepository, LocationRepository locationRepository) {
+    public DataHolder(EventRepository eventRepository, LocationRepository locationRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.eventRepository = eventRepository;
         this.locationRepository = locationRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
@@ -60,6 +68,13 @@ public class DataHolder {
 
         if (eventRepository.count() == 0) {
             eventRepository.saveAll(events);
+        }
+
+        users.add(new User("Adrian Mihajlovski", "adrian", "123", passwordEncoder.encode("adrian"), User.Role.User));
+        users.add(new User("Admin", "admin", "Admin", passwordEncoder.encode("admin"), User.Role.Admin));
+
+        if (userRepository.count() == 0) {
+            userRepository.saveAll(users);
         }
     }
 }

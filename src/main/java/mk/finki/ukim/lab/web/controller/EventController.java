@@ -3,6 +3,7 @@ package mk.finki.ukim.lab.web.controller;
 import mk.finki.ukim.lab.model.Event;
 import mk.finki.ukim.lab.service.EventService;
 import mk.finki.ukim.lab.service.LocationService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,7 @@ public class EventController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public String saveEvent(
             @RequestParam("name") String name,
             @RequestParam("description") String description,
@@ -52,6 +54,7 @@ public class EventController {
     }
 
     @PostMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String editEvent(
             @PathVariable Long id,
             @RequestParam("name") String name,
@@ -64,6 +67,7 @@ public class EventController {
     }
 
     @PostMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
         return "redirect:/events";
@@ -106,8 +110,7 @@ public class EventController {
     public String reviewEventForm(
             @PathVariable Long id,
             @RequestParam("text") String text,
-            @RequestParam("rating") Double rating,
-            Model model
+            @RequestParam("rating") Double rating
     ) {
         eventService.addReview(id, text, rating);
 
